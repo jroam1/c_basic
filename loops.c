@@ -7,6 +7,7 @@
 
 int main (void) {
     int i;
+    int n;
     // Ciclo infinito, no cambia el índice nunca y no se inicializa i
     // for (;i<=10;) {
     //     printf("Este es el índice %d \n", i);
@@ -40,5 +41,9 @@ int main (void) {
     for (i=0; i<=10; i++){
         printf("Este es el índice %d \n", i);
     };
+
+    n = (1<2);
+    printf("Este es el valor de n: %d \n", n);
+
     return 0;
 }
