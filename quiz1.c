@@ -1,3 +1,7 @@
+/*
+    Quiz que evalua el uso de enumerations como dato definido por el usuario
+*/
+
 #include <stdio.h>
 
 // int main()
@@ -19,7 +23,6 @@ int main()
     enum month {jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec};
     
     enum month next_month(enum month m) {
-        // printf("modulo: %u", 13 % 12);
         return((m + 1) % 12);
     };
     

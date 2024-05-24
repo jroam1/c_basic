@@ -1,3 +1,8 @@
+/*
+    Diferencias de performance (rendimiento) entre el uso de un código iterativo
+    y uno recursivo
+*/
+
 #include <stdio.h>
 
 long int factorial_iterative(int n){
