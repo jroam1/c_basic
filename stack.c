@@ -1,5 +1,5 @@
 /*
-    Basic Stack Implementation in C.
+    Basic Stack implementation in C.
     May, 2024
 */
 
@@ -10,20 +10,23 @@
 #define FULL (MAX_LEN - 1)
 
 // Definimos la estructura:
-struct stack {
+typedef struct stack {
     char s[MAX_LEN];
     int top;
-}
+} stack;
 
 // Definimos la función reset
-void reset(struct stack *stk) {
-    stk->top++ = EMPTY;
+void reset(stack *stk) {
+    /*
+        Se reinicia el stack, llevandolo al estado vacío.
+    */
+    stk->top = EMPTY;
 };
 
 // Definimos la función push
 void push(char c, struct stack *stk){
     stk->top++;
     stk->s[stk->top] = c;
-}
+};
 
 
