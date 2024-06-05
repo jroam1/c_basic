@@ -15,3 +15,5 @@ homework/elephant
 .vscode/*
 functions_structs
 pointer_arrays
+binary_tree
+full_list
