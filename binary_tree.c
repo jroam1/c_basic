@@ -70,13 +70,15 @@ int main(){
 };
 
 /*
+    El árbol binario resultante es:
+                 a
+                / \
+               b   c
+              / \
+             d   e
 
-    El valor quedo algo así:
-
-                    
-
-
-
+    En el archivo explicacion_arbol.jpg se muestra la deducción de esta estructura.
+    Es claro que al recorrer al arbol "in-order" el resultado es d-b-e-a-c
 */
 
 
