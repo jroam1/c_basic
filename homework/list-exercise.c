@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 typedef struct {
     char *name;
@@ -50,11 +51,40 @@ void print_list(list *h, char *title){
 
 list *add(element e, list *h){
     list *elements;
+
+    // Creamos el nuevo elemento apartando un espacio en memoria específico
+    element *new_element =(element *)malloc(sizeof(element));
+    if (new_element == NULL){
+        fprintf(stderr, "Memory allocation failed for new element\n");
+        exit(1);
+    };
+
+    // Memoria para el nombre del elemento
+    new_element->name = (char *)malloc((strlen(e.name) + 1)*sizeof(char));
+    if (new_element->name == NULL){
+        fprintf(stderr, "Memory allocation failed for name\n");
+        exit(1);
+    };
+    // Copiamos en el espacio de memoria reservado el nombre del elemento
+    strcpy(new_element->name, e.name);
+
+    // Memoria para el simbolo del elemento
+    new_element->symbol = (char *)malloc((strlen(e.symbol) + 1)*sizeof(char));
+    if (new_element->symbol == NULL){
+        fprintf(stderr, "Memory allocation failed for symbol\n");
+        exit(1);
+    };
+     // Copiamos en el espacio de memoria reservado el simbolo del elemento
+    strcpy(new_element->symbol, e.symbol);
+
+    // Guardamos el valor del peso
+    new_element->weight = e.weight;
+
     if (count(h) == 0){
-        elements = add_to_front(e, h);
+        elements = add_to_front(*new_element, h);
     } else {
         elements = malloc(sizeof(list));
-        elements->data = e;
+        elements->data = *new_element;
         elements->next = h;
     }
     return elements;
@@ -91,6 +121,7 @@ int main(){
         printf("Element %d: %s - %s - %lf added !!\n", count + 1, e->name, e->symbol, e->weight);
         count++;
     };
+    printf("\n\n");
     print_list(elements, "Atomic Elements List");
     free(e->name);
     free(e->symbol);
