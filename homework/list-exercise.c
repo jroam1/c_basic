@@ -1,3 +1,9 @@
+/*
+   Using list to store atomic elements.
+   Johann Roa
+   June, 2024
+*/
+
 #include<stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -50,8 +56,12 @@ void print_list(list *h, char *title){
 };
 
 list *add(element e, list *h){
-    list *elements;
+    /*
+        Creates the new item and adds it to the list
+    */
 
+    list *elements;
+ 
     // Creamos el nuevo elemento apartando un espacio en memoria específico
     element *new_element =(element *)malloc(sizeof(element));
     if (new_element == NULL){
@@ -79,6 +89,13 @@ list *add(element e, list *h){
 
     // Guardamos el valor del peso
     new_element->weight = e.weight;
+
+    // Apartar el espacio en memoria para el nombre y para el simbolo es necesario
+    // debido a la diferencia que existe entre asignar un valor a una variable
+    // y hacerlo con un pointer.
+    // El nuevo elemento crea una copia de la información recuperada y la asigna
+    // en una nueva ubicación de memoria. Así esta disponible aún cuando el elemento
+    // original se modifica
 
     if (count(h) == 0){
         elements = add_to_front(*new_element, h);
