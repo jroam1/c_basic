@@ -18,6 +18,6 @@ int main (void) {
     kilometers = 1.609*(miles + yards/1760.0);
     printf("\n A marathon is %lf kilometers.\n", kilometers);
     ejemplo = 4/3;
-    printf("\nEste es el ejempĺo: %d\n", ejemplo);
+    printf("\nEste es el ejemplo: %d\n", ejemplo);
     return 0;
 }
