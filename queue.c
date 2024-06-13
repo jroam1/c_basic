@@ -130,7 +130,7 @@ int main(){
     f = front(process);
     r = rear(process);
     printf("El primer elemento es {%d} y el último elemento es {%d}\n", f, r);
-    printf("Número final de elementos en cola : %d\n", process->count);
+    printf("Número final de elementos en cola: %d\n", process->count);
     return 0;
 }
 
