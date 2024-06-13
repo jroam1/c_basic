@@ -118,6 +118,43 @@ void insert(list *p1, list *p2, list* q){
    q->next = p2; // q apunta a p2
 };
 
+void delete(list *elem, list **prev, list **hd){
+    /*
+        Elimina un elemento de la lista, para ello se índica
+        el head de la lista y el elemento previo al que se quiere
+        eliminar
+    */
+    // En C, TODO SE PASA POR CALL BY VALUE, todo se pasa por copia...
+    // El call by reference es una trampa que usamos, pasando por copia un puntero
+    // Ahora, los elementos previos a element y la cabeza de la lista se estan pasando
+    // como puntero, pero necesitamos modificar ese puntero en sí, no el elemento
+    // al que apunta, por eso hacemos una doble referenciación **
+
+    if (*hd == *prev)
+        // Si el elemento a eliminar es el head, trasladamos el head al siguiente elemento
+        // del que se quiere eliminar
+        *hd = elem->next;
+    else 
+        // Eliminamos el elemento, trasladando el next del elemento anterior al next del elemento
+        // siguiente al que se ha eliminado
+        (*prev)->next = elem->next;
+    
+    // Finalmente liberamos el espacio de memoria donde se aloja el elemento
+    free(elem);
+};
+
+void delete_list(list *h){
+    /*
+        Elimina todos los elementos de la lista.
+    */
+    list *temp;
+    if (h != NULL){
+        temp = h;
+        delete_list(h = h->next);
+        free(temp);
+    };
+};
+
 int main(void){
     list *head = NULL;
     list *head2 = NULL;
