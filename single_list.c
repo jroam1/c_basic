@@ -37,10 +37,11 @@ list *create_list(int d){
 
 list *add_to_front(int d, list *h){
     /*
-        Permite agregar un elemento al final de la lista.
-        El miembro next del nuevo head creado apunta ahora
-        al elemento anterior en la lista. El nuevo elemento
-        esta linkeado a través de un pointer al elemento anterior.
+        Permite agregar un elemento al inicio de la lista.
+        El miembro next del nuevo elemento apunta ahora
+        al primer elemento en la lista h.
+        
+        El nuevo elemento esta linkeado a través de un pointer.
     */
     list *head = create_list(d);
     head->next = h; 
@@ -157,6 +158,14 @@ void delete_list(list *h){
 
 int main(void){
     list *head = NULL;
+    // Prueba de funcionamiento
+    // head = create_list(10);
+    // for (int i = 0; i<10; i++){
+    //     head = add_to_front(i, head);
+    // };
+    // print_list(head, "Añadiendo al inicio"); 
+
+    // Ejercicio:
     list *head2 = NULL;
     int data[6] = {2,3,5,7,8,9};
     int data2[3] = {10,13,15};

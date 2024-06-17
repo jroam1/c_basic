@@ -2,7 +2,6 @@
     Use of Simple arrays as parameters
     MergeSort (simple sort algorithm)
     Display each loop
-    Easy but inefficient (Useful just for small arrays)
     -- 
     Qué hace?: El programa recibe un arreglo de números enteros y lo organiza de menor a mayor
     usando el algoritmo "merge sort". 
