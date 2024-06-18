@@ -8,7 +8,7 @@
 #include <time.h>
 #include <ctype.h>
 #include <assert.h>
-#define MAX_SIZE 200
+#define MAX_SIZE 100
 
 typedef struct list {
     int data;
@@ -105,91 +105,48 @@ int count(const list *h){
     };
 };
 
-void concatenation(list *h1, list *h2){
-    /*
-        Permite concatenar dos listas. Esencialmente
-        usamos recursión para llegar al head de la lista
-        h1. Al llegar allí sustituimos su next a NULL
-        para que apunte al final de la lista h2. 
-        Estrictamente, agregamos h1 a h2, puesto que 
-        h2 conserva el head intacto.
-        Al imprimirse la lista aparece h1 primero y luego
-        aparece h2, por lo que pareciera que se ha agregado
-        h2 a h1.
-    */
-   assert(h1 != NULL);
-   if ( h1->next == NULL){
-        h1->next = h2;
-   } else {
-        concatenation(h1->next, h2);
-   };
-};
+void delete_repeated_elements(list *h){
+    list *temp = h; // Store each element in the list
+    list *initial = h; // Store the list, allow restart the cicle
+    list *new_prev;
+    list *new_next;
 
-void insert(list *p1, list *p2, list* q){
-    /*
-        Permite insertar un elemento a la lista
-        en la posición intermedia de los 
-        elementos p1 y p2. 
-    */
-   assert(p1->next == p2); // Garantizamos que p1 y p2 son consecutivos
-   p1->next = q; // p1 apunta ahora a q
-   q->next = p2; // q apunta a p2
-};
-
-void delete(list *elem, list **prev, list **hd){
-    /*
-        Elimina un elemento de la lista, para ello se índica
-        el head de la lista y el elemento previo al que se quiere
-        eliminar
-    */
-    // En C, TODO SE PASA POR CALL BY VALUE, todo se pasa por copia...
-    // El call by reference es una trampa que usamos, pasando por copia un puntero
-    // Ahora, los elementos previos a element y la cabeza de la lista se estan pasando
-    // como puntero, pero necesitamos modificar ese puntero en sí, no el elemento
-    // al que apunta, por eso hacemos una doble referenciación **
-
-    if (*hd == *prev)
-        // Si el elemento a eliminar es el head, trasladamos el head al siguiente elemento
-        // del que se quiere eliminar
-        *hd = elem->next;
-    else 
-        // Eliminamos el elemento, trasladando el next del elemento anterior al next del elemento
-        // siguiente al que se ha eliminado
-        (*prev)->next = elem->next;
-    
-    // Finalmente liberamos el espacio de memoria donde se aloja el elemento
-    free(elem);
-};
-
-void delete_list(list *h){
-    /*
-        Elimina todos los elementos de la lista.
-    */
-    list *temp;
-    if (h != NULL){
-        temp = h;
-        delete_list(h = h->next);
-        free(temp);
-    };
+    while (temp != NULL){
+        // printf("Este es temp {%d} y este es h {%d}\n", temp->data, h->data);
+        if (h->next == NULL){
+            temp = temp->next;
+            h = initial;
+        } else if (temp->data == h->next->data && temp!=h->next){
+            printf("Encontre uno repetido: %d\n", (h->next)->data);
+            new_prev = (h->next)->prev;
+            new_next = (h->next)->next;
+            // Delete the repeated element
+            if (new_next != NULL){
+                printf("Este es el siguiente: %d\n", ((h->next)->next)->data);
+                printf("Este es el previo: %d\n", new_prev->data);
+                ((h->next)->prev)->next = new_next;
+                // ((h->next)->next)->prev = new_prev;
+            } else {
+                printf("The last one is a repeated element\n");
+                printf("Este es el penultimo: %d\n", ((h->next)->prev)->data);
+                ((h->next)->prev)->next = NULL;
+                break;
+            };
+        };
+        h = h->next;
+    }
 };
 
 int main(void){
     list *head = NULL;
-
-    // Prueba de funcionamiento 
-    // head = create_list(10);
-    // head2 = create_list(20);
-    // for (int i = 0; i<10; i++){
-    //     head = add_to_beginning(i, head);
-    // }
-    // print_list(head, "Añadiendo al inicio"); 
-    // print_list(head2, "Añadiendo al final"); 
-
-    // Ejercicio:
     int data[MAX_SIZE];
+
     head = array_to_list(data, MAX_SIZE);
-    printf("Numero de elementos en la lista:%d", count(head));
-    print_list(head, "Exercise");
+    printf("Numero de elementos en la lista:%d\n", count(head));
+    print_list(head, "Before delete");
+    delete_repeated_elements(head);
+    print_list(head, "After delete");
+    printf("Numero de elementos en la lista despues de delete:%d\n", count(head));
     printf("\n\n");
     return 0;
 };
