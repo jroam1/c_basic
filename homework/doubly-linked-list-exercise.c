@@ -1,5 +1,6 @@
 /*
     Doubly Linked List as ADT in C
+    Johann Roa
     June, 2024
 */
 
@@ -7,8 +8,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <ctype.h>
-#include <assert.h>
-#define MAX_SIZE 100
+#define MAX_SIZE 210
 
 typedef struct list {
     int data;
@@ -16,13 +16,6 @@ typedef struct list {
     struct list *prev;
 } list;
 
-int is_empty(const list *l){
-    /*
-        Retorna 1 si la lista está vacía ó 0
-        si la lista contiene algún elemento.
-    */
-    return (l == NULL);
-};
 
 list *create_list(int d){
     /*
@@ -43,20 +36,16 @@ list *create_list(int d){
 
 list *add_to_beginning(int d, list *h){
     /*
-        Permite agregar un elemento al inicio de la lista.
-        El miembro next del nuevo head creado apunta ahora
-        al elemento head de la lista. El nuevo elemento
-        esta linkeado a través de un pointer al elemento siguiente.
-
-        Opera de forma equivalente al metodo add_to_front de la 
-        implementación single linked list en full_list.c
+        Add a new element into the beginning of 
+        the list. Return a pointer to the first
+        element in the list.
     */
     list *head = create_list(d);
     head->next = h; 
     head->prev = NULL;
     if (h != NULL){
-        // Si la lista ya tiene elementos, debemos indicar que el 
-        // primer elemento de la lista es justamente el nuevo elemento
+        // If the list is not empty, we indicate that 
+        // the new element is the head of the list
         h->prev = head;
     }
     return head;
@@ -64,15 +53,14 @@ list *add_to_beginning(int d, list *h){
 
 list *array_to_list(int d[], int size){
     /*
-        Utilizando las operaciones anteriores, se transforma
-        un arreglo en una lista.
-        Al retornar head, estamos retornando el último elemento
-        de la lista, así que ésta se recorrerá del final hacia el
-        inicio. 
+       Transform an array into a list adding each element
+       in the beginning of the list.
+       Each element is randomly generated
     */
-    list *head = create_list(d[0]);
     // Seed the random number generator with the current time
     srand(time(NULL));
+    d[0] = rand()%50;
+    list *head = create_list(d[0]);
     for (int i=1; i<size; i++){
         d[i] = rand()%50;
         head = add_to_beginning(d[i], head);
@@ -82,8 +70,7 @@ list *array_to_list(int d[], int size){
 
 void print_list(list *h, char *title){
     /*
-        Imprime el elemento contenido en la lista
-        luego apunta al siguiente elemento. 
+        Print every element into the list. 
     */
     printf("%s\n", title);
     while (h != NULL){
@@ -95,8 +82,7 @@ void print_list(list *h, char *title){
 
 int count(const list *h){
     /*
-        Utilizando recursión, retorna el número
-        de elementos contenido en la lista.
+        Return the number of elements into the list
     */
     if (h==NULL){
         return 0;
@@ -106,29 +92,27 @@ int count(const list *h){
 };
 
 void delete_repeated_elements(list *h){
+    /*
+        Check every element in the list, if an element 
+        is repeated then it is removed from the list.  
+    */
+
     list *temp = h; // Store each element in the list
     list *initial = h; // Store the list, allow restart the cicle
-    list *new_prev;
-    list *new_next;
+    list *new_prev; // Store the element before the current element
+    list *new_next; //  Store the element after the current element
 
     while (temp != NULL){
-        // printf("Este es temp {%d} y este es h {%d}\n", temp->data, h->data);
         if (h->next == NULL){
             temp = temp->next;
             h = initial;
         } else if (temp->data == h->next->data && temp!=h->next){
-            printf("Encontre uno repetido: %d\n", (h->next)->data);
             new_prev = (h->next)->prev;
             new_next = (h->next)->next;
             // Delete the repeated element
             if (new_next != NULL){
-                printf("Este es el siguiente: %d\n", ((h->next)->next)->data);
-                printf("Este es el previo: %d\n", new_prev->data);
                 ((h->next)->prev)->next = new_next;
-                // ((h->next)->next)->prev = new_prev;
             } else {
-                printf("The last one is a repeated element\n");
-                printf("Este es el penultimo: %d\n", ((h->next)->prev)->data);
                 ((h->next)->prev)->next = NULL;
                 break;
             };
@@ -142,11 +126,11 @@ int main(void){
     int data[MAX_SIZE];
 
     head = array_to_list(data, MAX_SIZE);
-    printf("Numero de elementos en la lista:%d\n", count(head));
+    printf("Initial number of elements:%d\n", count(head));
     print_list(head, "Before delete");
     delete_repeated_elements(head);
     print_list(head, "After delete");
-    printf("Numero de elementos en la lista despues de delete:%d\n", count(head));
+    printf("Number of elements after delete operation:%d\n", count(head));
     printf("\n\n");
     return 0;
 };
